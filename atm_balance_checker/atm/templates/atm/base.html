@@ -1,0 +1,29 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ATM Balance Checker{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'atm/style.css' %}">
+</head>
+<body>
+  <main class="machine">
+    <p class="plate">ATM Balance Checker</p>
+
+    <section class="screen">
+      {% if messages %}
+        <ul class="notes">
+          {% for message in messages %}
+            <li class="note note--{{ message.tags }}" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% block screen %}{% endblock %}
+    </section>
+
+    <div class="slot" aria-hidden="true"></div>
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

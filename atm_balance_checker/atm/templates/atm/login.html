@@ -1,0 +1,29 @@
+{% extends "atm/base.html" %}
+{% block title %}Insert card · ATM Balance Checker{% endblock %}
+
+{% block screen %}
+  <header class="head">
+    <h1>Welcome</h1>
+    <p>Enter your card number and PIN to see your balance.</p>
+  </header>
+
+  <form method="post" class="form" novalidate>
+    {% csrf_token %}
+
+    <div class="field">
+      <label for="{{ form.card_number.id_for_label }}">Card number</label>
+      {{ form.card_number }}
+      {% for error in form.card_number.errors %}<p class="err">{{ error }}</p>{% endfor %}
+    </div>
+
+    <div class="field">
+      <label for="{{ form.pin.id_for_label }}">PIN</label>
+      {{ form.pin }}
+      {% for error in form.pin.errors %}<p class="err">{{ error }}</p>{% endfor %}
+    </div>
+
+    <button class="btn" type="submit">Continue</button>
+  </form>
+
+  <p class="fine">Three wrong PINs lock the card.</p>
+{% endblock %}

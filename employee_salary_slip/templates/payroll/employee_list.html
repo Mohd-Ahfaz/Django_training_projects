@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Employees | Employee Salary Slip{% endblock %}
+{% block content %}
+<div class="rowhead"><div><h1>Employees</h1><p class="muted">Search and manage employee records.</p></div><a class="btn primary" href="{% url 'employee_create' %}">+ Add employee</a></div>
+<form method="get" class="toolbar"><input type="search" name="q" value="{{ q }}" placeholder="Search name, employee ID, department"><button class="btn primary">Search</button>{% if q %}<a class="btn soft" href="{% url 'employee_list' %}">Clear</a>{% endif %}</form>
+<section class="card"><div class="table-wrap"><table><thead><tr><th>Employee ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Email</th><th></th></tr></thead><tbody>
+{% for employee in employees %}<tr><td>{{ employee.employee_id }}</td><td>{{ employee.full_name }}</td><td>{{ employee.department }}</td><td>{{ employee.designation }}</td><td>{{ employee.email|default:"—" }}</td><td><a href="{% url 'employee_detail' employee.pk %}">View</a></td></tr>{% empty %}<tr><td colspan="6">No employees found.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

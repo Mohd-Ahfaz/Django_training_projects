@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Student Tasks{% endblock %}</title>
+  <style>
+    :root { --ink:#172033; --muted:#687386; --line:#e5e9f0; --bg:#f5f7fb; --primary:#3457d5; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial, sans-serif; background:var(--bg); color:var(--ink); }
+    header { background:#fff; border-bottom:1px solid var(--line); padding:18px 24px; }
+    .nav { max-width:1000px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .brand { font-weight:800; font-size:20px; text-decoration:none; color:var(--ink); }
+    main { max-width:1000px; margin:32px auto; padding:0 18px; }
+    .btn { display:inline-block; border:0; border-radius:9px; padding:11px 15px; text-decoration:none; font-weight:700; cursor:pointer; font-size:14px; }
+    .primary { background:var(--primary); color:#fff; }
+    .secondary { background:#edf0f6; color:var(--ink); }
+    .danger { background:#fff0f0; color:#b42318; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:15px; padding:20px; margin-bottom:16px; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:22px 0; }
+    .stat { background:#fff; padding:17px; border:1px solid var(--line); border-radius:13px; }
+    .stat strong { display:block; font-size:25px; margin-bottom:5px; }
+    .muted { color:var(--muted); font-size:14px; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    input, textarea, select { width:100%; padding:11px 12px; border:1px solid #cfd6e2; border-radius:8px; font:inherit; background:#fff; }
+    label { display:block; font-weight:700; margin:16px 0 7px; }
+    .search { display:flex; flex:1; min-width:220px; gap:8px; }
+    .search input { flex:1; }
+    .task-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; }
+    .task-title { font-size:18px; font-weight:750; margin:0 0 8px; }
+    .done { text-decoration:line-through; color:var(--muted); }
+    .pill { display:inline-block; border-radius:30px; padding:5px 9px; font-size:12px; font-weight:700; background:#eef2ff; color:#3549a7; }
+    .high { background:#fff0ed; color:#b42318; } .low { background:#eaf8ef; color:#167344; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .actions form { margin:0; }
+    .message { padding:12px 14px; border-radius:9px; background:#eaf8ef; color:#17663a; margin-bottom:12px; }
+    .empty { text-align:center; padding:36px 16px; }
+    @media(max-width:600px) { .stats { grid-template-columns:1fr; } .task-head { flex-direction:column; } main { margin-top:20px; } }
+  </style>
+</head>
+<body>
+<header><div class="nav"><a class="brand" href="{% url 'task_list' %}">✓ Student Tasks</a><a class="btn primary" href="{% url 'task_create' %}">+ Add Task</a></div></header>
+<main>
+  {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

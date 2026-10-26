@@ -1,0 +1,7 @@
+<div class="keys keys--bottom">
+  <a class="key key--left" href="{% url 'atm:menu' %}">Back to menu</a>
+  <form class="key-form" method="post" action="{% url 'atm:logout' %}">
+    {% csrf_token %}
+    <button class="key key--right" type="submit">Exit and take card</button>
+  </form>
+</div>

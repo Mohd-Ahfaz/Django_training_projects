@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Subjects | Student Result Portal{% endblock %}
+{% block content %}
+<div class="rowhead"><div><h1>Subjects</h1><p class="muted">Maintain subjects and passing marks.</p></div><a class="btn primary" href="{% url 'subject_create' %}">+ Add subject</a></div>
+<section class="card"><div class="table-wrap"><table><thead><tr><th>Code</th><th>Subject name</th><th>Maximum marks</th><th>Pass marks</th><th></th></tr></thead><tbody>
+{% for subject in subjects %}<tr><td>{{ subject.code }}</td><td>{{ subject.name }}</td><td>{{ subject.max_marks }}</td><td>{{ subject.pass_marks }}</td><td><form method="post" action="{% url 'subject_delete' subject.pk %}" onsubmit="return confirm('Delete subject and its results?');" class="no-print">{% csrf_token %}<button class="btn danger">Delete</button></form></td></tr>{% empty %}<tr><td colspan="5">No subjects added yet.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

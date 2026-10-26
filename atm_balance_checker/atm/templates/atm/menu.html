@@ -1,0 +1,25 @@
+{% extends "atm/base.html" %}
+{% block title %}Menu · ATM Balance Checker{% endblock %}
+
+{% block screen %}
+  <header class="head">
+    <h1>Hello, {{ account.holder_name }}</h1>
+    <p>What would you like to do?</p>
+  </header>
+
+  <nav class="keys" aria-label="Transactions">
+    <a class="key key--left" href="{% url 'atm:balance' %}">Check balance</a>
+    <a class="key key--right" href="{% url 'atm:withdraw' %}">Withdraw cash</a>
+    <a class="key key--left" href="{% url 'atm:statement' %}">Mini statement</a>
+    <a class="key key--right" href="{% url 'atm:deposit' %}">Deposit cash</a>
+  </nav>
+
+  <div class="keys keys--bottom">
+    <form class="key-form key-form--right" method="post" action="{% url 'atm:logout' %}">
+      {% csrf_token %}
+      <button class="key key--right" type="submit">Exit and take card</button>
+    </form>
+  </div>
+
+  <p class="fine">You're signed out automatically after 3 minutes of inactivity.</p>
+{% endblock %}

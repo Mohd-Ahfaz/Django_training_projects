@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Salary Slips | Employee Salary Slip{% endblock %}
+{% block content %}
+<div class="rowhead"><div><h1>Salary slips</h1><p class="muted">Find monthly payroll records.</p></div><a class="btn primary" href="{% url 'slip_create' %}">+ Create salary slip</a></div>
+<form method="get" class="toolbar"><input name="q" value="{{ q }}" placeholder="Employee name or ID"><select name="month" style="width:auto;min-width:145px"><option value="">All months</option>{% for value,label in months %}<option value="{{ value }}" {% if month == value|stringformat:"s" %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><input name="year" value="{{ year }}" type="number" placeholder="Year" style="max-width:130px"><button class="btn primary">Filter</button><a class="btn soft" href="{% url 'slip_list' %}">Reset</a></form>
+<section class="card"><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Period</th><th>Gross salary</th><th>Deductions</th><th>Net salary</th><th></th></tr></thead><tbody>
+{% for slip in slips %}<tr><td>{{ slip.employee.full_name }}<br><span class="muted">{{ slip.employee.employee_id }}</span></td><td>{{ slip.get_month_display }} {{ slip.year }}</td><td>₹{{ slip.gross_salary|floatformat:2 }}</td><td>₹{{ slip.total_deductions|floatformat:2 }}</td><td><strong>₹{{ slip.net_salary|floatformat:2 }}</strong></td><td><a href="{% url 'slip_detail' slip.pk %}">View</a></td></tr>{% empty %}<tr><td colspan="6">No salary slips found.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

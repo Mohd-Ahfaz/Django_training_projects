@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Student Result Portal{% endblock %}</title>
+<style>
+:root{--ink:#172033;--muted:#687386;--line:#e3e8f0;--bg:#f5f7fb;--blue:#3457d5;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:var(--ink)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:17px 22px}.nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.brand{font-size:20px;font-weight:800;color:var(--ink);text-decoration:none}.links{display:flex;gap:8px;flex-wrap:wrap}.links a{padding:9px 11px;border-radius:8px;text-decoration:none;color:#364152;font-size:14px}.links a:hover{background:#eef2ff}
+main{max-width:1100px;margin:30px auto;padding:0 18px}h1{margin:0 0 8px;font-size:29px}h2{font-size:19px}.muted{color:var(--muted);font-size:14px}
+.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer}.primary{background:var(--blue);color:#fff}.soft{background:#edf0f6;color:var(--ink)}.danger{background:#fff0f0;color:#b42318}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:22px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:18px}.stat strong{display:block;font-size:27px;margin-bottom:6px}
+.toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:15px 0}.toolbar input{flex:1;min-width:200px}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #ccd4e1;border-radius:8px;font:inherit;background:white}label{display:block;font-weight:700;margin:16px 0 7px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line)}th{font-size:12px;text-transform:uppercase;color:var(--muted)}tr:last-child td{border-bottom:0}
+.table-wrap{overflow-x:auto}.pill{display:inline-block;border-radius:30px;padding:5px 9px;font-size:12px;font-weight:700;background:#eef2ff;color:#3549a7}.pass{background:#eaf8ef;color:#167344}.fail{background:#fff0ed;color:#b42318}
+.message{background:#eaf8ef;color:#17663a;padding:12px;border-radius:8px;margin-bottom:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.rowhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}main{margin-top:20px}.stat strong{font-size:23px}}
+@media(max-width:430px){.stats{grid-template-columns:1fr}}
+@media print{header,.no-print,.message{display:none!important}body{background:white}main{max-width:none;margin:0;padding:0}.card,.stat{border:1px solid #aaa;break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><div class="nav"><a class="brand" href="{% url 'dashboard' %}">▦ Student Result Portal</a><nav class="links"><a href="{% url 'dashboard' %}">Dashboard</a><a href="{% url 'student_list' %}">Students</a><a href="{% url 'subject_list' %}">Subjects</a><a href="{% url 'result_create' %}">Enter Result</a><a href="/admin/">Admin</a></nav></div></header>
+<main>{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+</body></html>

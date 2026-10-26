@@ -1,0 +1,46 @@
+{% extends "atm/base.html" %}
+{% load atm_extras %}
+{% block title %}{{ title }} · ATM Balance Checker{% endblock %}
+
+{% block screen %}
+  <header class="head">
+    <h1>{{ title }}</h1>
+    <p>{{ hint }}</p>
+  </header>
+
+  <form method="post" class="form" novalidate>
+    {% csrf_token %}
+
+    <div class="field">
+      <label for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+      {{ form.amount }}
+      {% for error in form.amount.errors %}<p class="err">{{ error }}</p>{% endfor %}
+    </div>
+
+    <div class="chips" id="chips" hidden>
+      {% for value in quick_amounts %}
+        <button class="chip" type="button" data-amount="{{ value }}">{{ value|inr|slice:":-3" }}</button>
+      {% endfor %}
+    </div>
+
+    <button class="btn" type="submit">{{ button }}</button>
+  </form>
+
+  {% include "atm/_bottom_keys.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Quick-amount buttons: tap to fill the amount box. The form works fine without this.
+  (function () {
+    var chips = document.getElementById("chips");
+    var input = document.getElementById("{{ form.amount.id_for_label }}");
+    if (!chips || !input) return;
+    chips.hidden = false;
+    chips.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-amount]");
+      if (btn) { input.value = btn.dataset.amount; input.focus(); }
+    });
+  })();
+</script>
+{% endblock %}

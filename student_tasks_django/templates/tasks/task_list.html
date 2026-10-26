@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}My Tasks | Student Tasks{% endblock %}
+{% block content %}
+  <h1 style="margin-bottom:6px">My tasks</h1>
+  <p class="muted" style="margin-top:0">Keep your assignments, study sessions, and deadlines in one place.</p>
+  <section class="stats">
+    <div class="stat"><strong>{{ total_count }}</strong><span class="muted">Total tasks</span></div>
+    <div class="stat"><strong>{{ pending_count }}</strong><span class="muted">Pending</span></div>
+    <div class="stat"><strong>{{ completed_count }}</strong><span class="muted">Completed</span></div>
+  </section>
+  <section class="card">
+    <form class="toolbar" method="get">
+      <div class="search"><input type="search" name="q" value="{{ query }}" placeholder="Search tasks..."><button class="btn primary" type="submit">Search</button></div>
+      <select name="status" style="width:auto;min-width:145px" onchange="this.form.submit()">
+        <option value="all" {% if status == "all" %}selected{% endif %}>All tasks</option>
+        <option value="pending" {% if status == "pending" %}selected{% endif %}>Pending</option>
+        <option value="completed" {% if status == "completed" %}selected{% endif %}>Completed</option>
+      </select>
+    </form>
+  </section>
+  {% for task in tasks %}
+    <article class="card">
+      <div class="task-head">
+        <div>
+          <h2 class="task-title {% if task.is_completed %}done{% endif %}">{{ task.title }}</h2>
+          {% if task.description %}<p style="margin:0 0 12px;white-space:pre-wrap">{{ task.description }}</p>{% endif %}
+          <span class="pill {% if task.priority == 'High' %}high{% elif task.priority == 'Low' %}low{% endif %}">{{ task.priority }} priority</span>
+          {% if task.due_date %}<span class="muted"> · Due {{ task.due_date|date:"M j, Y" }}</span>{% else %}<span class="muted"> · No due date</span>{% endif %}
+          {% if task.is_completed %}<span class="pill">Completed</span>{% else %}<span class="pill">Pending</span>{% endif %}
+        </div>
+      </div>
+      <div class="actions">
+        <form method="post" action="{% url 'task_toggle' task.pk %}">{% csrf_token %}<button class="btn secondary" type="submit">{% if task.is_completed %}Mark pending{% else %}Mark complete{% endif %}</button></form>
+        <a class="btn secondary" href="{% url 'task_update' task.pk %}">Edit</a>
+        <form method="post" action="{% url 'task_delete' task.pk %}" onsubmit="return confirm('Delete this task?');">{% csrf_token %}<button class="btn danger" type="submit">Delete</button></form>
+      </div>
+    </article>
+  {% empty %}
+    <section class="card empty"><h2>No tasks found</h2><p class="muted">Add a task to get started, or change your search/filter.</p><a class="btn primary" href="{% url 'task_create' %}">Create your first task</a></section>
+  {% endfor %}
+{% endblock %}

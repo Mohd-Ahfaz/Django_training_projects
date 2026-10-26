@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Student Result Portal{% endblock %}
+{% block content %}
+<h1>Dashboard</h1><p class="muted">Manage student records and academic performance from one place.</p>
+<section class="stats">
+<div class="stat"><strong>{{ student_count }}</strong><span class="muted">Students</span></div>
+<div class="stat"><strong>{{ subject_count }}</strong><span class="muted">Subjects</span></div>
+<div class="stat"><strong>{{ result_count }}</strong><span class="muted">Result entries</span></div>
+<div class="stat"><strong>{{ passed_count }}</strong><span class="muted">Passed subject entries</span></div>
+</section>
+<div class="rowhead"><h2>Quick actions</h2></div>
+<div class="card actions no-print"><a class="btn primary" href="{% url 'student_create' %}">+ Add student</a><a class="btn soft" href="{% url 'subject_create' %}">+ Add subject</a><a class="btn soft" href="{% url 'result_create' %}">+ Enter result</a><a class="btn soft" href="{% url 'student_list' %}">View all students</a></div>
+<section class="card"><div class="rowhead"><h2>Recently added students</h2><a href="{% url 'student_list' %}">View all →</a></div>
+{% if recent_students %}<div class="table-wrap"><table><thead><tr><th>Roll number</th><th>Name</th><th>Course</th><th>Semester</th><th></th></tr></thead><tbody>{% for student in recent_students %}<tr><td>{{ student.roll_number }}</td><td>{{ student.full_name }}</td><td>{{ student.course }}</td><td>{{ student.semester }}</td><td><a href="{% url 'student_detail' student.pk %}">View result</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<p class="muted">No students added yet. Add a student to get started.</p>{% endif %}</section>
+{% endblock %}

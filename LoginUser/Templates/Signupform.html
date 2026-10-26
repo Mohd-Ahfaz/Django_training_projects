@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        {% if messages %}
+           {% for msg in messages %}
+                <h1>{{msg}}</h1>
+           {% endfor %}
+        {% endif %}
+    <h1>Sign Up Form</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        
+
+        Username : <input type="text" name="uname" placeholder="Enter Username" required> <br><br>
+        Email : <input type="email" name="email" placeholder="Enter Your Email" required> <br><br>
+        Password : <input type="password" name="password" placeholder="Enter Password" required> <br><br>
+        Confirm Password : <input type="password" name="passwordagain" placeholder="Enter Password Again" required> <br><br>
+        <input type="submit" value="Sign Up"> <br><br>
+
+    </form>
+</body>
+</html>

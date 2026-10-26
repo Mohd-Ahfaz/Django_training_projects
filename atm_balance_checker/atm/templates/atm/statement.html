@@ -1,0 +1,39 @@
+{% extends "atm/base.html" %}
+{% load atm_extras %}
+{% block title %}Mini statement · ATM Balance Checker{% endblock %}
+
+{% block screen %}
+  <header class="head">
+    <h1>Mini statement</h1>
+    <p>Your latest transactions, newest first.</p>
+  </header>
+
+  {% if transactions %}
+    <div class="table-wrap">
+      <table class="statement">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Type</th>
+            <th scope="col" class="num">Amount</th>
+            <th scope="col" class="num">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in transactions %}
+            <tr>
+              <td>{{ t.created_at|date:"j M Y, g:i A" }}</td>
+              <td>{{ t.get_kind_display }}</td>
+              <td class="num {% if t.kind == 'DEP' %}in{% else %}out{% endif %}">{% if t.kind == 'DEP' %}+{% else %}−{% endif %}{{ t.amount|inr }}</td>
+              <td class="num">{{ t.balance_after|inr }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="empty">No transactions yet. Deposit or withdraw cash and they'll show up here.</p>
+  {% endif %}
+
+  {% include "atm/_bottom_keys.html" %}
+{% endblock %}

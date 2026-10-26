@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ employee.full_name }} | Employee Salary Slip{% endblock %}
+{% block content %}
+<div class="rowhead"><div><h1>{{ employee.full_name }}</h1><p class="muted">Employee ID: {{ employee.employee_id }}</p></div><div class="actions no-print"><a class="btn soft" href="{% url 'employee_update' employee.pk %}">Edit</a><a class="btn primary" href="{% url 'slip_create' %}">Create salary slip</a></div></div>
+<section class="card"><p><strong>Department:</strong> {{ employee.department }}</p><p><strong>Designation:</strong> {{ employee.designation }}</p><p><strong>Email:</strong> {{ employee.email|default:"—" }}</p><p><strong>Phone:</strong> {{ employee.phone|default:"—" }}</p><p><strong>Date joined:</strong> {{ employee.date_joined|default:"—" }}</p></section>
+<section class="card"><h2>Salary history</h2><div class="table-wrap"><table><thead><tr><th>Pay period</th><th>Gross salary</th><th>Deductions</th><th>Net salary</th><th></th></tr></thead><tbody>
+{% for slip in slips %}<tr><td>{{ slip.get_month_display }} {{ slip.year }}</td><td>₹{{ slip.gross_salary|floatformat:2 }}</td><td>₹{{ slip.total_deductions|floatformat:2 }}</td><td><strong>₹{{ slip.net_salary|floatformat:2 }}</strong></td><td><a href="{% url 'slip_detail' slip.pk %}">View slip</a></td></tr>{% empty %}<tr><td colspan="5">No salary slips found for this employee.</td></tr>{% endfor %}
+</tbody></table></div></section>
+<div class="actions no-print"><a class="btn soft" href="{% url 'employee_list' %}">← Back</a><form method="post" action="{% url 'employee_delete' employee.pk %}" onsubmit="return confirm('Delete this employee and all salary slips?');">{% csrf_token %}<button class="btn danger">Delete employee</button></form></div>
+{% endblock %}

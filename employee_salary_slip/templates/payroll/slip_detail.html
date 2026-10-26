@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Salary Slip | Employee Salary Slip{% endblock %}
+{% block content %}
+<div class="rowhead no-print"><div><h1>Salary slip</h1><p class="muted">Review, print, or save as PDF using your browser.</p></div><button class="btn primary" onclick="window.print()">Print salary slip</button></div>
+<section class="card slip">
+<div class="slip-head"><h2>EMPLOYEE SALARY SLIP</h2><p>{{ slip.get_month_display }} {{ slip.year }}</p></div>
+<div class="rowhead" style="margin:20px 0"><div><p><strong>Employee name:</strong> {{ slip.employee.full_name }}</p><p><strong>Employee ID:</strong> {{ slip.employee.employee_id }}</p><p><strong>Department:</strong> {{ slip.employee.department }}</p><p><strong>Designation:</strong> {{ slip.employee.designation }}</p></div><div><p><strong>Pay period:</strong> {{ slip.get_month_display }} {{ slip.year }}</p><p><strong>Payment date:</strong> {{ slip.payment_date|default:"—" }}</p><p><strong>Bank account:</strong> {% if slip.employee.bank_account_last4 %}•••• {{ slip.employee.bank_account_last4 }}{% else %}—{% endif %}</p></div></div>
+<div class="table-wrap"><table><thead><tr><th>Earnings</th><th class="money">Amount (₹)</th><th>Deductions</th><th class="money">Amount (₹)</th></tr></thead><tbody>
+<tr><td>Basic salary</td><td class="money">{{ slip.basic_salary|floatformat:2 }}</td><td>Provident fund (PF)</td><td class="money">{{ slip.pf_deduction|floatformat:2 }}</td></tr>
+<tr><td>House rent allowance (HRA)</td><td class="money">{{ slip.hra|floatformat:2 }}</td><td>Tax deduction</td><td class="money">{{ slip.tax_deduction|floatformat:2 }}</td></tr>
+<tr><td>Other allowances</td><td class="money">{{ slip.other_allowances|floatformat:2 }}</td><td>Other deductions</td><td class="money">{{ slip.other_deductions|floatformat:2 }}</td></tr>
+<tr><td>Bonus</td><td class="money">{{ slip.bonus|floatformat:2 }}</td><td></td><td></td></tr>
+<tr class="total-row"><td>Gross earnings</td><td class="money">{{ slip.gross_salary|floatformat:2 }}</td><td>Total deductions</td><td class="money">{{ slip.total_deductions|floatformat:2 }}</td></tr>
+<tr class="total-row"><td colspan="3">NET SALARY (₹)</td><td class="money">{{ slip.net_salary|floatformat:2 }}</td></tr>
+</tbody></table></div>
+{% if slip.notes %}<p><strong>Notes:</strong> {{ slip.notes }}</p>{% endif %}
+<p style="margin-top:30px;text-align:center;font-size:12px;color:#666">This is a computer-generated salary slip.</p>
+</section>
+<div class="actions no-print"><a class="btn soft" href="{% url 'slip_list' %}">← Back to salary slips</a><form method="post" action="{% url 'slip_delete' slip.pk %}" onsubmit="return confirm('Delete this salary slip?');">{% csrf_token %}<button class="btn danger">Delete slip</button></form></div>
+{% endblock %}

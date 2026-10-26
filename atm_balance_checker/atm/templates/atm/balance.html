@@ -1,0 +1,18 @@
+{% extends "atm/base.html" %}
+{% load atm_extras %}
+{% block title %}Balance · ATM Balance Checker{% endblock %}
+
+{% block screen %}
+  <header class="head">
+    <h1>Your balance</h1>
+    <p>{{ account.holder_name }}, card {{ account.masked_card }}</p>
+  </header>
+
+  <div class="balance">
+    <p class="balance__label">Available balance</p>
+    <p class="balance__amount">{{ account.balance|inr }}</p>
+    <p class="balance__time">As of {% now "j M Y, g:i A" %}</p>
+  </div>
+
+  {% include "atm/_bottom_keys.html" %}
+{% endblock %}

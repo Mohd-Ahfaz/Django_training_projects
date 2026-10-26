@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Employee Salary Slip{% endblock %}
+{% block content %}
+<h1>Payroll dashboard</h1><p class="muted">Manage employee records and monthly salary slips.</p>
+<section class="stats"><div class="stat"><strong>{{ employee_count }}</strong><span class="muted">Employees</span></div><div class="stat"><strong>{{ slip_count }}</strong><span class="muted">Salary slips</span></div><div class="stat"><strong>₹{{ total_net|floatformat:2 }}</strong><span class="muted">Net total of all slips</span></div></section>
+<section class="card actions no-print"><a class="btn primary" href="{% url 'employee_create' %}">+ Add employee</a><a class="btn soft" href="{% url 'slip_create' %}">+ Create salary slip</a><a class="btn soft" href="{% url 'slip_list' %}">View all slips</a></section>
+<section class="card"><div class="rowhead"><h2>Recent salary slips</h2><a href="{% url 'slip_list' %}">View all →</a></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Pay period</th><th>Gross salary</th><th>Deductions</th><th>Net salary</th><th></th></tr></thead><tbody>
+{% for slip in recent_slips %}<tr><td>{{ slip.employee.full_name }}<br><span class="muted">{{ slip.employee.employee_id }}</span></td><td>{{ slip.get_month_display }} {{ slip.year }}</td><td>₹{{ slip.gross_salary|floatformat:2 }}</td><td>₹{{ slip.total_deductions|floatformat:2 }}</td><td><strong>₹{{ slip.net_salary|floatformat:2 }}</strong></td><td><a href="{% url 'slip_detail' slip.pk %}">Open</a></td></tr>{% empty %}<tr><td colspan="6">No salary slips yet. Add an employee, then create a salary slip.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}
